@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- This meta tag is ESSENTIAL for media queries to work on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Website Exercise</title>
+    
+    <!-- Load the "Inter" font (as per style guidelines) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. DESKTOP-ONLY STYLES ("The Problem") --- */
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            /* Added for hamburger button positioning */
+            position: relative;
+        }
+
+        nav {
+            background-color: #444;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            /* This flex layout makes the nav horizontal */
+            display: flex;
+            justify-content: center;
+        }
+
+        /* New: Hamburger Menu Button */
+        .nav-toggle {
+            display: none; /* Hidden on desktop */
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px; /* Made icon bigger */
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            padding: 5px;
+            line-height: 1;
+        }
+
+        nav li a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+        }
+
+        nav li a:hover {
+            background-color: #555;
+        }
+
+        /* HINT 2: This fixed-width container is a problem on mobile */
+        .container {
+            width: 960px;
+            margin: 20px auto;
+            /* This flex layout creates side-by-side columns */
+            display: flex;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden; /* Good practice, but doesn't solve the core issue */
+        }
+
+        .content {
+            /* This takes up 2/3 of the space */
+            flex: 2;
+            padding: 20px;
+        }
+
+        .sidebar {
+            /* This takes up 1/3 of the space */
+            flex: 1;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        /* HINT 2 & 8: This fixed-width image is a major problem on mobile */
+        .content img {
+            width: 600px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #333;
+            color: white;
+        }
+
+        /* --- 2. MOBILE-FRIENDLY STYLES (The "Solution") --- */
+
+        /* HINT 3: Target screens 768px wide or smaller */
+        @media (max-width: 768px) {
+
+            h1 {
+                /* HINT 4: Reduce font sizes */
+                font-size: 1.8rem;
+            }
+
+            /* HINT 7: Fix overflow by making container flexible */
+            .container {
+                /* Remove the fixed width and let it fill the screen */
+                width: 100%;
+                margin: 0;
+                border-radius: 0;
+                
+                /* HINT 4: Stack columns vertically */
+                flex-direction: column;
+            }
+
+            /* HINT 5: Stack nav menu vertically (and hide it) */
+            nav ul {
+                /* Stack them */
+                flex-direction: column;
+                /* Hide by default on mobile */
+                display: none;
+                width: 100%;
+            }
+
+            /* New: This class will be toggled by JavaScript */
+            nav ul.nav-open {
+                display: flex;
+            }
+
+            /* New: Show the hamburger button */
+            .nav-toggle {
+                display: block;
+            }
+
+            nav li {
+                text-align: center;
+                border-bottom: 1px solid #555;
+            }
+
+            nav li:last-child {
+                border-bottom: none;
+            }
+            
+            /* HINT 8: Make images scale */
+            .content img {
+                /* 100% of its container (now .content) */
+                width: 100%;
+                /* height: auto ensures aspect ratio is maintained */
+                height: auto;
+            }
+
+            .content, .sidebar {
+                /* Remove flex-basis so they stack naturally */
+                flex: 1 1 100%;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>My Desktop-Only Website</h1>
+        <!-- New: Added Hamburger Button -->
+        <button class="nav-toggle" id="navToggle">
+            &#9776; <!-- This is the "hamburger" icon character -->
+        </button>
+    </header>
+
+    <nav id="mainNav">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <main class="content">
+            <h2>Welcome to the Main Content</h2>
+            <p>This is the main content area. On a desktop, it sits next to the sidebar. On a mobile device, it should stack on top of the sidebar.</p>
+            <img src="https://placehold.co/600x300/663399/FFFFFF?text=Large+Image" alt="Placeholder image">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis, auctor consequat urna. Morbi a bibendum metus. Donec scelerisque sollicitun enim eu venenatis. Duis tincidunt laoreet ex, in pretium orci vestibulum eget.</p>
+        </main>
+
+        <aside class="sidebar">
+            <h3>Sidebar</h3>
+            <p>This is the sidebar. It's narrow on desktop, but should become full-width and stack below the main content on mobile.</p>
+            <ul>
+                <li>Quick Link 1</li>
+                <li>Quick Link 2</li>
+                <li>Quick Link 3</li>
+            </ul>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Responsive Design Co.</p>
+    </footer>
+
+    <!-- 
+      ---
+      HERE IS THE JAVASCRIPT CODE
+      ---
+      This script finds the hamburger button (navToggle) and the navigation list (navList).
+      It then adds a 'click' listener to the button.
+      When the button is clicked, it toggles the 'nav-open' class on the navigation list,
+      which our CSS uses to show or hide the menu.
+    -->
+    <script>
+        // Wait for the document to be fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggle = document.getElementById('navToggle');
+            const mainNav = document.getElementById('mainNav');
+            
+            // Check if both elements exist
+            if (navToggle && mainNav) {
+                const navList = mainNav.querySelector('ul');
+                
+                if (navList) {
+                    // Add a click event listener to the hamburger button
+                    navToggle.addEventListener('click', () => {
+                        // Toggle the 'nav-open' class on the <ul> element
+                        navList.classList.toggle('nav-open');
+                    });
+                } else {
+                    console.error('Could not find navigation list (ul) inside #mainNav.');
+                }
+            } else {
+                console.error('Could not find nav toggle button or main nav element.');
+            }
+        });
+    </script>
+
+</body>
+</html>
+
